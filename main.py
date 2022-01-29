@@ -7,7 +7,7 @@ from stable_baselines3.common.callbacks import BaseCallback
 env = gym.make('CartPole-v1')
 
 #See our Environment
-"""
+
 done = True
 for step in range(1000): #Loop through each frame in the game
     if done:
@@ -16,7 +16,7 @@ for step in range(1000): #Loop through each frame in the game
     env.render()
 
 env.close()
-"""
+
 #Save Models
 class TrainAndLoggingCallback(BaseCallback):
 
@@ -39,19 +39,19 @@ class TrainAndLoggingCallback(BaseCallback):
 Save_Dir = './train/'
 Logs_Dir = './logs/'
 
-callback = TrainAndLoggingCallback(check_freq=1000, save_path=Save_Dir) #Every 10000 steps we save our model
+callback = TrainAndLoggingCallback(check_freq=1000, save_path=Save_Dir) #Every 1000 steps we save our model
 
 
 #Model
-train = True
-if Train:
+train = False
+if train:
     model = A2C('MlpPolicy', env, verbose=1)
     model.learn(total_timesteps=90000, callback=callback)
-
+    #model.save('fkff')
 #Test AI
 else:
     obs = env.reset()
-    #model = A2C.load('./train/best_model_88000')
+    model = A2C.load('./train/best_model_88000')
     for i in range(1000):
         action, _state = model.predict(obs, deterministic=True)
         obs, reward, done, info = env.step(action)
