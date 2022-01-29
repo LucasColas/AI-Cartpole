@@ -43,14 +43,18 @@ callback = TrainAndLoggingCallback(check_freq=1000, save_path=Save_Dir) #Every 1
 
 
 #Model
-model = A2C('MlpPolicy', env, verbose=1)
-model.learn(total_timesteps=90000, callback=callback)
+train = True
+if Train:
+    model = A2C('MlpPolicy', env, verbose=1)
+    model.learn(total_timesteps=90000, callback=callback)
 
 #Test AI
-obs = env.reset()
-for i in range(1000):
-    action, _state = model.predict(obs, deterministic=True)
-    obs, reward, done, info = env.step(action)
-    env.render()
-    if done:
-      obs = env.reset()
+else:
+    obs = env.reset()
+    #model = A2C.load('./train/best_model_88000')
+    for i in range(1000):
+        action, _state = model.predict(obs, deterministic=True)
+        obs, reward, done, info = env.step(action)
+        env.render()
+        if done:
+          obs = env.reset()
