@@ -33,13 +33,13 @@ class TrainAndLoggingCallback(BaseCallback):
 Save_Dir = './train/'
 Logs_Dir = './logs/'
 
-callback = TrainAndLoggingCallback(check_freq=10000, save_path=Save_Dir) #Every 10000 steps we save our model
+callback = TrainAndLoggingCallback(check_freq=2000, save_path=Save_Dir) #Every 10000 steps we save our model
 
 
 #Model
 
 model = A2C('MlpPolicy', env, verbose=1)
-model.learn(total_timesteps=90000)
+model.learn(total_timesteps=90000, callback=callback)
 
 obs = env.reset()
 for i in range(1000):
